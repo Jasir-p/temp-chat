@@ -57,10 +57,59 @@ class UserLoginView(views.APIView):
     
 
 
+class UserProfileView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request):
+        try:
+            user_profile = CustomeUser.objects.get(id=request.user.id)
+            serializer = UserManagementSerializers(user_profile)
+            return Response (serializer.data,status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            print(str(e))
+            return Response({"error":str(e)},status=status.HTTP_401_UNAUTHORIZED)
+        
 
 
+
+class UserLogOut(views.APIView):
+    def post(self,request):
+        response = Response({"logout SuccessFull"},status=status.HTTP_200_OK)
+        
+
+        return clear_jwt_cookie(response)
     
 
+
+        
+class CookiesTokenRefresh(views.APIView):
+    permission_classes = [permissions.AllowAny]
+    def post(self, request,*args, **kwargs):
+        
+
+        refresh_token = request.COOKIES.get(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
+        print(refresh_token)
+
+        if not refresh_token:
+            return Response({"error":"Refresh Token Not Found"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        try:
+            refresh = RefreshToken(refresh_token)
+            new_access_token = str(refresh.access_token)
+            response = Response({"access":new_access_token}, status=status.HTTP_200_OK)
+            response.set_cookie(
+                key=settings.SIMPLE_JWT['AUTH_COOKIE'],
+                value=new_access_token,
+                secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
+                httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
+                samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
+                max_age=int(settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
+            )
+            return response
+        
+        except (TokenError):
+            return Response({"error":"Invalid Token"},status=status.HTTP_401_UNAUTHORIZED)
 
 
 
@@ -93,6 +142,18 @@ def set_jwt_cookie(response,user):
     )
 
     return response
+
+
+def clear_jwt_cookie(response):
+    response.delete_cookie("access_token")
+    response.delete_cookie("refresh_token")
+
+    return response
+
+
+
+    
+
 
 
 
