@@ -3,8 +3,20 @@ import { Logo } from '../components/Logo'
 import { Button } from '../components/FormButton'
 import { Settings, Linkedin, Instagram, Github, User } from 'lucide-react'
 import { SocialIcon } from '../components/SocialIcon'
+import { Logout } from '../api/LogoutApi'
+import { useNavigate } from 'react-router-dom'
 
 const MainLayout = ({ children }) => {
+
+  const navigate = useNavigate()
+
+  const handleLogout = async()=>{
+    const response = await Logout()
+
+    if (response){
+      navigate('/login')
+    }
+  }
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50">
       {/* Header */}
@@ -13,7 +25,7 @@ const MainLayout = ({ children }) => {
           <Logo size="md" />
           <div className="flex space-x-6 items-center">
             <Settings size={30} />
-            <Button variant="primary" size="sm">
+            <Button variant="primary" size="sm" onClick={handleLogout}>
               Log Out
             </Button>
           </div>

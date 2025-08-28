@@ -11,9 +11,9 @@ export const RoomCard = ({ room, onJoin, isJoined = false }) => {
         </div>
         <div className="ml-3 flex-1">
           <h3 className="text-lg font-bold text-gray-800">{room.name}</h3>
-          {/* <p className="text-sm text-gray-600">{room.category}</p> */}
+          <p className="text-gray-500 text-sm">Created by : {room.created_by.username}</p>
         </div>
-        {/* <div className={`w-3 h-3 rounded-full ${room.isActive ? 'bg-green-500' : 'bg-gray-400'}`}></div> */}
+
       </div>
 
       {/* Room Description */}

@@ -2,10 +2,12 @@ import React,{useState} from 'react'
 import { Button } from '../components/FormButton'
 import { Input } from '../components/FormInput'
 import axios from 'axios'
+import { LoginApi } from '../api/LoginApi'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
 
-
+  const navigate = useNavigate()
   const [formData,setFormData]= useState({
     username:'',
     password:''
@@ -19,11 +21,17 @@ const handleChanges = (e)=>{
 }
   const handleSubmit = async() => {
     console.log('Registration data:', formData);
-    const response = await axios.post(
-                "http://localhost:8000/api/user/login/",
-                formData,
-                { withCredentials: true }
-                );
+    try{
+      const response = await LoginApi(formData)
+      console.log(response);
+      navigate('/home')
+      
+    }
+    catch(error){
+      console.log(error);
+      
+    }
+    
   };
 
   return (

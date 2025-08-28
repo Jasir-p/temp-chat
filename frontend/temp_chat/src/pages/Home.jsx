@@ -1,71 +1,49 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import MainLayout from '../layouts/MainLayout'
 import { Tab } from '../components/Tab';
 import { RoomCard } from '../components/RoomsCard';
+import { fetchChatRooms } from '../api/ChatRoomApi';
+import { useDebounce } from '../hooks/useDebounce';
 
- const allRooms = [
-    {
-      id: 1,
-      name: 'Tech Talk',
-      category: 'Technology',
-      description: 'Discuss latest tech trends, programming, and innovations.',
-      members: 124,
-      activeNow: 8,
-      isActive: true
-    },
-    {
-      id: 2,
-      name: 'Gaming Hub',
-      category: 'Gaming',
-      description: 'Connect with fellow gamers and share gaming experiences.',
-      members: 89,
-      activeNow: 12,
-      isActive: true
-    },
-    {
-      id: 3,
-      name: 'Music Lovers',
-      category: 'Music',
-      description: 'Share your favorite tracks and discover new music.',
-      members: 156,
-      activeNow: 3,
-      isActive: false
-    },
-    {
-      id: 4,
-      name: 'Book Club',
-      category: 'Education',
-      description: 'Monthly book discussions and reading recommendations.',
-      members: 67,
-      activeNow: 0,
-      isActive: false
-    },
-    {
-      id: 5,
-      name: 'Startup Founders',
-      category: 'Business',
-      description: 'Network with entrepreneurs and share startup experiences.',
-      members: 45,
-      activeNow: 5,
-      isActive: true
-    },
-    {
-      id: 6,
-      name: 'Art & Design',
-      category: 'Creative',
-      description: 'Showcase your artwork and get feedback from the community.',
-      members: 78,
-      activeNow: 2,
-      isActive: false
-    }
-  ];
+
+
+
+
+const chatRooms = async () => {
+ 
+};
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('all');
+  const [rooms, setRooms] = useState([]);
+  const [search,setSearch]= useState(null)
+  const debouncedSearch = useDebounce(search,300)
+
+  
+  
   const handleJoinRoom = (room) => {
     setJoinedRooms(prev => new Set([...prev, room.id]));
     console.log(`Joined room: ${room.name}`);
   };
+
+useEffect(() => {
+    const loadRooms = async () => {
+      const params = {};
+      if (debouncedSearch) params.search = debouncedSearch;
+      if (activeTab === "my") params.myrooms = true;
+       try {
+            const data = await fetchChatRooms(params);
+            console.log(data);
+            setRooms(data.data || [])
+          } catch (error) {
+            console.error("Error fetching chat rooms:", error);
+            
+          }
+    };
+    loadRooms();
+  }, [activeTab,debouncedSearch]); 
+
+
 
   return (
     <MainLayout>
@@ -105,10 +83,10 @@ const Home = () => {
                 type="text"
                 placeholder="Search..."
                 className="flex-1 px-3 py-2 text-sm text-gray-700 focus:outline-none"
+                value={search}
+                onChange={(e)=>setSearch(e.target.value)}
               />
-              <button className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-                Search
-              </button>
+              
             </div>
           </div>
 
@@ -118,7 +96,7 @@ const Home = () => {
           <div className="mt-8 text-center text-gray-500">
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {allRooms.map((room) => (
+              {rooms.map((room) => (
                 <RoomCard
                   key={room.id}
                   room={room}

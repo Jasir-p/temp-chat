@@ -2,9 +2,11 @@ import React,{useState} from 'react'
 import { Input } from '../components/FormInput'
 import { Button } from '../components/FormButton'
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 
 const Register = () => {
+  const navigate = useNavigate()
 
       const [formData,setFormData]= useState({
         username:'',
@@ -19,6 +21,7 @@ const Register = () => {
       })
     }
       const handleSubmit = async() => {
+        
 
         try {
             console.log("Registration data:", formData);
@@ -85,9 +88,9 @@ const Register = () => {
           <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             already have a account?{' '}
-            <a href="#" className="text-sky-600 hover:text-sky-700 font-medium">
+            <button type='button' className="text-sky-600 hover:text-sky-700 font-medium" onClick={()=>navigate("/login")}>
               Sign in
-            </a>
+            </button>
           </p>
         </div>
           

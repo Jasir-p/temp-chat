@@ -3,9 +3,11 @@ import { Logo } from '../components/Logo'
 import { Button } from '../components/FormButton'
 import { SocialIcon } from '../components/SocialIcon'
 import { MessageCircle, Users, Shield, Zap, Linkedin, Instagram, Github, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 
 const LandingPage = () => {
+  const navigate = useNavigate()
   return (
     
       <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50">
@@ -14,10 +16,10 @@ const LandingPage = () => {
         <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
           <Logo size="md" />
           <div className="flex space-x-4">
-            <Button variant="secondary" size="sm">
+            <Button variant="secondary" size="sm" onClick={()=>navigate('/login')}>
               Login
             </Button>
-            <Button variant="primary" size="sm">
+            <Button variant="primary" size="sm" onClick={()=>navigate('/register')}>
               Sign Up
             </Button>
           </div>
