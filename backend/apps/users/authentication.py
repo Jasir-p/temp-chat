@@ -7,6 +7,7 @@ class CustomAuthentication(JWTAuthentication):
 
     def authenticate(self, request):
         access_token = request.COOKIES.get(settings.SIMPLE_JWT['AUTH_COOKIE'])
+        print(access_token)
         if access_token is None:
             print("hallo tokem")
             return None
