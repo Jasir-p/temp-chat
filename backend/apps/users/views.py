@@ -62,8 +62,8 @@ class UserProfileView(views.APIView):
 
     def get(self,request):
         try:
-            user_profile = CustomeUser.objects.get(id=request.user.id)
-            serializer = UserManagementSerializers(user_profile)
+            # user_profile = CustomeUser.objects.get(id=request.user.id)
+            serializer = UserManagementSerializers(request.user)
             return Response (serializer.data,status=status.HTTP_200_OK)
         
         except Exception as e:
