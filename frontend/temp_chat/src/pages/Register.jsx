@@ -51,8 +51,8 @@ const Register = () => {
             console.log("Registration data:", formData);
 
             const response = await axios.post(
-            "http://localhost:8000/api/user/register/",
-            formData // ✅ send formData directly
+            `${import.meta.env.VITE_API_URL}/user/register/`,
+            formData 
             );
 
     console.log("Response:", response.data);
