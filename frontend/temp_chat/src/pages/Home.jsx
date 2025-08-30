@@ -4,6 +4,7 @@ import { Tab } from '../components/Tab';
 import { RoomCard } from '../components/RoomsCard';
 import { fetchChatRooms } from '../api/ChatRoomApi';
 import { useDebounce } from '../hooks/useDebounce';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -14,6 +15,8 @@ const chatRooms = async () => {
 };
 
 const Home = () => {
+
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('all');
   const [rooms, setRooms] = useState([]);
   const [search,setSearch]= useState(null)
@@ -22,8 +25,9 @@ const Home = () => {
   
   
   const handleJoinRoom = (room) => {
-    setJoinedRooms(prev => new Set([...prev, room.id]));
     console.log(`Joined room: ${room.name}`);
+    navigate(`/room/${room.id}`)
+
   };
 
 useEffect(() => {

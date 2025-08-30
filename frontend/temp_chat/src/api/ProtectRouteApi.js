@@ -3,7 +3,6 @@ import axiosAuthInterceptor from "../interceptors/axiosAuthInterceptor";
 
 export const ProtectRouteApi = async()=>{
 
-      const response = await axiosAuthInterceptor.get("/user/profile/",
-    )
-    return response    
+      const response = await axiosAuthInterceptor.get("/user/profile/")
+    return response.data    
 }

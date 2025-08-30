@@ -3,6 +3,7 @@ import { Input } from '../components/FormInput'
 import { Button } from '../components/FormButton'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { validateEmail,validateName,validatePassword } from '../utils/Validations';
 
 
 const Register = () => {
@@ -13,15 +14,38 @@ const Register = () => {
         email:'',
         password:''
       })
+
+      const[formErrors,setFormErrors]= useState({})
     
     const handleChanges = (e)=>{
+      
       setFormData({
         ...formData,
         [e.target.name]:e.target.value
       })
     }
-      const handleSubmit = async() => {
-        
+    const handleSubmit = async() => {
+      
+      if(!formData) return
+
+      const errors = {}
+
+      const nameError = validateName(formData.username)
+      if (nameError) errors.username = nameError
+
+      const emailError = validateEmail(formData.email)
+      if (emailError) errors.email = emailError
+
+      const passwordError = validatePassword(formData.password)
+       if (passwordError) errors.password= passwordError
+
+
+       if (Object.keys(errors).length >0){
+        setFormErrors(errors)
+        return
+       }
+      
+
 
         try {
             console.log("Registration data:", formData);
@@ -46,6 +70,8 @@ const Register = () => {
         </div>
       
        <div className="space-y-6">
+        <div>
+      
           <Input
             label="Username"
             type="text"
@@ -55,7 +81,10 @@ const Register = () => {
             onChange={handleChanges}
             placeholder="Enter your username"
           />
-
+          {formErrors.username && <span className="text-red-500 text-sm">{formErrors.username}</span>}
+        </div>
+        <div>
+          
           <Input
             label="email"
             type="text"
@@ -65,9 +94,11 @@ const Register = () => {
             onChange={handleChanges}
             placeholder="Enter your username"
           />
+          {formErrors.email&& <span className="text-red-500 text-sm">{formErrors.email}</span>}
+        </div>
 
           
-
+          <div>
           <Input
             label="Password"
             type="password"
@@ -77,6 +108,8 @@ const Register = () => {
             onChange={handleChanges}
             placeholder="Enter your password"
           />
+          {formErrors.password&& <span className="text-red-500 text-sm">{formErrors.password}</span>}
+        </div>
           <Button
           onClick={handleSubmit}
           variant='primary'

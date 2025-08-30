@@ -43,9 +43,7 @@ const MainLayout = ({ children }) => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
               <Logo size="md" />
-              <p className="text-gray-400 mt-2 max-w-md">
-                Connecting people through seamless, secure, and fast messaging experiences.
-              </p>
+
             </div>
 
             <div className="flex flex-col items-center md:items-end">
