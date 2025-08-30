@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ChatRoom
+from .models import ChatRoom,ChatMessage
 from apps.users.serializers import UserManagementSerializers
 
 
@@ -17,6 +17,14 @@ class ChatRoomViewSerializers(serializers.ModelSerializer):
         model = ChatRoom
         fields = '__all__'
 
+class ChatMessageSerializer(serializers.ModelSerializer):
+    user = UserManagementSerializers(read_only=True)
+
+    class Meta:
+        model = ChatMessage
+        fields = ['id','room','user','message','timestamp']
+
+    
 
 
     

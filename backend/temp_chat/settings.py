@@ -24,10 +24,10 @@ load_dotenv()
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(v%p%*_o^37nzdtycr_(!#0vc2r+g@%6o9%4p%9@(ee5@7#_&v'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = []
 
@@ -108,11 +108,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'temp_chat.wsgi.application'
 ASGI_APPLICATION = 'temp_chat.asgi.application'
 
+REDIS = os.getenv("REDIS_HOST")
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("redis", 6379)],
+            "hosts": [REDIS],
         },
     },
 }
