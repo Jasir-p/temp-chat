@@ -58,6 +58,7 @@ class UserLoginView(views.APIView):
 
 
 class UserProfileView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self,request):
         try:
