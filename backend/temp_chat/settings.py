@@ -79,7 +79,7 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_COOKIE": "access_token",
     'AUTH_COOKIE_REFRESH': 'refresh_token', 
-    "AUTH_COOKIE_SECURE": False,  # restricts the transmission of the cookie to only occur over secure (HTTPS) connections. 
+    "AUTH_COOKIE_SECURE": True,  # restricts the transmission of the cookie to only occur over secure (HTTPS) connections. 
     "AUTH_COOKIE_HTTP_ONLY": True,  # prevents client-side js from accessing the cookie
     "AUTH_COOKIE_SAMESITE": None,  # specifies whether the cookie should be sent in cross site requests
 }
