@@ -152,13 +152,9 @@ def clear_jwt_cookie(response,request):
             token.blacklist()
 
     response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'],
-        path="/",
-        samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
-        secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],)
+        path="/",)
     response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'],
-        path="/",
-        samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
-        secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],)
+        path="/",)
 
     return response
 
