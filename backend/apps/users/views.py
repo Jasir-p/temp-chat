@@ -146,7 +146,7 @@ def set_jwt_cookie(response,user):
 
 def clear_jwt_cookie(response,request):
     if request:
-        refresh_token_value = request.COOKIES.get('refresh_token') 
+        refresh_token_value = request.COOKIES.get(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH']) 
         if refresh_token_value:
             token = RefreshToken(refresh_token_value)
             token.blacklist()
