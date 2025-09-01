@@ -151,8 +151,8 @@ def clear_jwt_cookie(response,request):
             token = RefreshToken(refresh_token_value)
             token.blacklist()
 
-    response.delete_cookie("access_token")
-    response.delete_cookie("refresh_token")
+    response.delete_cookie("AUTH_COOKIE")
+    response.delete_cookie("AUTH_COOKIE_REFRESH")
 
     return response
 
