@@ -78,7 +78,7 @@ class UserLogOut(views.APIView):
         response = Response({"logout SuccessFull"},status=status.HTTP_200_OK)
         
 
-        return clear_jwt_cookie(response)
+        return clear_jwt_cookie(response,request)
     
 
 
@@ -150,7 +150,7 @@ def clear_jwt_cookie(response,request):
         if refresh_token_value:
             token = RefreshToken(refresh_token_value)
             token.blacklist()
-            
+
     response.delete_cookie("access_token")
     response.delete_cookie("refresh_token")
 
