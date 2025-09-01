@@ -57,7 +57,7 @@ useEffect(() => {
         {/* Welcome Header */}
         <div className="bg-gradient-to-r from-sky-500 to-sky-600 text-white py-6 px-4">
           <div className="max-w-6xl mx-auto text-center">
-            <h1 className="text-xl font-bold mb-3">Welcome back,{username} </h1>
+            <h1 className="text-xl font-bold mb-3">Welcome back,{Username} </h1>
             
           </div>
         </div>
