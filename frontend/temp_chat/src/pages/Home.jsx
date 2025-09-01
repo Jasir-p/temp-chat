@@ -5,6 +5,7 @@ import { RoomCard } from '../components/RoomsCard';
 import { fetchChatRooms } from '../api/ChatRoomApi';
 import { useDebounce } from '../hooks/useDebounce';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 
@@ -21,6 +22,7 @@ const Home = () => {
   const [rooms, setRooms] = useState([]);
   const [search,setSearch]= useState(null)
   const debouncedSearch = useDebounce(search,300)
+  const Username = useSelector((state)=>state.auth.username)
 
   
   
@@ -55,7 +57,7 @@ useEffect(() => {
         {/* Welcome Header */}
         <div className="bg-gradient-to-r from-sky-500 to-sky-600 text-white py-6 px-4">
           <div className="max-w-6xl mx-auto text-center">
-            <h1 className="text-xl font-bold mb-3">Welcome back, Jothish! </h1>
+            <h1 className="text-xl font-bold mb-3">Welcome back,{username} </h1>
             
           </div>
         </div>
