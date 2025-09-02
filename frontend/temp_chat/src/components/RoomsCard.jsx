@@ -1,7 +1,8 @@
 import { Button } from "./FormButton";
+import { Trash2 } from "lucide-react";
 
 
-export const RoomCard = ({ room, onJoin, isJoined = false }) => {
+export const RoomCard = ({ room, onJoin,isOwn,handleDelete,isJoined=false}) => {
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
       {/* Room Header */}
@@ -9,10 +10,21 @@ export const RoomCard = ({ room, onJoin, isJoined = false }) => {
         <div className="w-12 h-12 bg-gradient-to-br from-sky-400 to-sky-600 rounded-full flex items-center justify-center text-white text-lg font-bold">
           {room.name.charAt(0)}
         </div>
+        
         <div className="ml-3 flex-1">
           <h3 className="text-lg font-bold text-gray-800">{room.name}</h3>
           <p className="text-gray-500 text-sm">Created by : {room.created_by.username}</p>
         </div>
+        {isOwn && (
+          <button
+            onClick={() => handleDelete(room.id)}
+            className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white hover:bg-red-700 transition"
+          >
+            <Trash2 className="w-5 h-5" />
+          </button>
+        )}
+
+         
 
       </div>
 

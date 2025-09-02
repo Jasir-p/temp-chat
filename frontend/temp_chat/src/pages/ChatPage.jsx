@@ -8,7 +8,8 @@ import { Sidebar } from '../components/chatpage/Sidebar'
 import { fetchMessage } from '../api/ChatMessageApi'
 import { getSingleChatRoom } from '../api/ChatRoomApi'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+
 
 
 
@@ -21,7 +22,7 @@ const {sendMessage,socket} = useChatSocket(roomId,setMessages,setOnlineMembers)
 const [sidebarOpen, setSidebarOpen] = useState(false);
 const userId = useSelector((state)=>state.auth.userId)
 const [roomData,setRoomData] = useState(null)
-
+const navigate = useNavigate()
 
 useEffect (()=>{
     if (!socket) return
@@ -62,7 +63,12 @@ useEffect (()=>{
   }
 },[roomId])
 console.log(onlineMembers);
-
+function leaveRoom() {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.close();
+    navigate('/home')
+  }
+}
 
   return (
     <MainLayout>
@@ -94,6 +100,7 @@ console.log(onlineMembers);
               roomData={roomData}
               onlineCount={onlineMembers.length}
               members={onlineMembers}
+              leaveRoom = {leaveRoom}
               
             />
           </div>

@@ -6,14 +6,13 @@ import { fetchChatRooms } from '../api/ChatRoomApi';
 import { useDebounce } from '../hooks/useDebounce';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import CreateRoom from './CreateRoom';
+import { removeChatRoom } from '../api/ChatRoomApi';
+import { showError,showSuccess } from '../utils/toast';
 
 
 
 
-
-const chatRooms = async () => {
- 
-};
 
 const Home = () => {
 
@@ -21,8 +20,11 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [rooms, setRooms] = useState([]);
   const [search,setSearch]= useState(null)
+  const[isOpen,setIsOpen]= useState(false)
+  const [change,setChange]=useState(false)
   const debouncedSearch = useDebounce(search,300)
   const Username = useSelector((state)=>state.auth.username)
+  const userId = useSelector((state)=>state.auth.userId)
 
   
   
@@ -31,6 +33,21 @@ const Home = () => {
     navigate(`/room/${room.id}`)
 
   };
+
+  const deleteChatRoom = async(roomId)=>{
+    try{
+      const response = await removeChatRoom(roomId)
+      setChange(!change)
+      showSuccess("successfull deleted")
+      
+    }catch(error){
+      console.log(error);
+      
+      const errors = error?.response?.data?.error || "failed to delete Chat Room"
+      showError(errors)
+    }
+    
+  }
 
 useEffect(() => {
     const loadRooms = async () => {
@@ -47,7 +64,7 @@ useEffect(() => {
           }
     };
     loadRooms();
-  }, [activeTab,debouncedSearch]); 
+  }, [activeTab,debouncedSearch,change]); 
 
 
 
@@ -63,6 +80,7 @@ useEffect(() => {
         </div>
 
         <div className="bg-white shadow-sm py-6">
+          
           <div className="max-w-6xl mx-auto px-6">
             <div className="flex justify-center">
               <div className="flex space-x-3 bg-gray-50 p-2 rounded-xl shadow-inner">
@@ -77,7 +95,14 @@ useEffect(() => {
                   onClick={() => setActiveTab('my')}
                 />
               </div>
+              <button
+        onClick={() => setIsOpen(true)}
+        className="ml-4 px-4 py-2 rounded-lg bg-sky-600 text-white font-medium hover:bg-sky-700 transition"
+      >
+        + Create Room
+      </button>
             </div>
+            
           </div>
         </div>
 
@@ -100,13 +125,20 @@ useEffect(() => {
 
           {/* Placeholder for room content */}
           <div className="mt-8 text-center text-gray-500">
-
+          {isOpen && (
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+              <CreateRoom onClose={() => setIsOpen(false) } onChange={()=>setChange(!change)} />
+            </div>
+          )}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {rooms.map((room) => (
                 <RoomCard
                   key={room.id}
                   room={room}
                   onJoin={handleJoinRoom}
+                  isOwn = {userId===room.created_by.id}
+                  handleDelete={deleteChatRoom}
+                  
                  
                 />
               ))}

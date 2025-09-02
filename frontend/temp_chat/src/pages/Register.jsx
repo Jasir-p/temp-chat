@@ -4,6 +4,7 @@ import { Button } from '../components/FormButton'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { validateEmail,validateName,validatePassword } from '../utils/Validations';
+import { showSuccess } from '../utils/toast';
 
 
 const Register = () => {
@@ -47,17 +48,22 @@ const Register = () => {
       
 
 
-        try {
-            console.log("Registration data:", formData);
-
-            const response = await axios.post(
-            `${import.meta.env.VITE_API_URL}/user/register/`,
-            formData 
-            );
-
-    console.log("Response:", response.data);
+      try {
+      const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/user/register/`,
+        formData 
+        );
+        setFormErrors({})
+        showSuccess("Registred Successfully")
   } catch (error) {
-    console.error("Error during registration:", error.response?.data || error.message);
+    if (error.response?.data?.error){
+      const backendErros = {}
+      Object.entries(error.response.data.error).forEach(([field,msg])=>{
+        backendErros[field] = msg.join(",")
+      })
+      setFormErrors((prev)=>({...prev, ...backendErros}))
+    }
+    
   }
 
       };

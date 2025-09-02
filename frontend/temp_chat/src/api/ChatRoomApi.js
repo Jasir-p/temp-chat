@@ -17,3 +17,16 @@ export const getSingleChatRoom =  async (roomID) =>{
         return error
     }
 }
+
+
+export const addChatRoom = async (formData) => {
+  const response = await axiosAuthInterceptor.post('/chat-rooms/', formData);
+  return response.data;
+};
+
+export const removeChatRoom = async(roomID)=>{
+    const response =  await axiosAuthInterceptor.delete(`/chat-rooms/${roomID}/delete/`)
+    console.log(response);
+    
+    return response
+}

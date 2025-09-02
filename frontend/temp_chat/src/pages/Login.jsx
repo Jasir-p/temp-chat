@@ -4,6 +4,7 @@ import { Input } from '../components/FormInput'
 import axios from 'axios'
 import { LoginApi } from '../api/LoginApi'
 import { useNavigate } from 'react-router-dom'
+import { showSuccess,showError } from '../utils/toast'
 
 const Login = () => {
 
@@ -12,6 +13,8 @@ const Login = () => {
     username:'',
     password:''
   })
+  const[formErrors,setFormErrors]= useState({})
+
 
 const handleChanges = (e)=>{
   setFormData({
@@ -20,15 +23,26 @@ const handleChanges = (e)=>{
   })
 }
   const handleSubmit = async() => {
-    console.log('Registration data:', formData);
+    if (!formData) return
+    const errors = {}
+    if (!formData.username.trim())errors["username"]="username is required"
+    if (!formData.password.trim())errors["password"]="password is required"
+
+    if (Object.keys(errors).length>0){
+      setFormErrors(errors)
+      return
+
+    }
+    console.log('Registration data:', formErrors);
     try{
       const response = await LoginApi(formData)
-      console.log(response);
+      showSuccess("Successfully Logined")
       navigate('/home')
       
     }
     catch(error){
-      console.log(error);
+      
+      showError(error.error)
       
     }
     
@@ -39,10 +53,11 @@ const handleChanges = (e)=>{
       <div className='bg-white rounded-2xl shadow-xl p-8 w-full max-w-md'>
         <div className='text-center mb-8'>
           <h1 className="text-3xl font-bold text-sky-600 mb-2">LetsChat</h1>
-          <p className="text-gray-600">Sign up</p>
+          <p className="text-gray-600">Sign In</p>
         </div>
       
        <div className="space-y-6">
+        <div>
           <Input
             label="Username"
             type="text"
@@ -52,9 +67,10 @@ const handleChanges = (e)=>{
             onChange={handleChanges}
             placeholder="Enter your username"
           />
+          {formErrors.username && <span className="text-red-500 text-sm">{formErrors.username}</span>}</div>
 
           
-
+          <div>
           <Input
             label="Password"
             type="password"
@@ -64,6 +80,7 @@ const handleChanges = (e)=>{
             onChange={handleChanges}
             placeholder="Enter your password"
           />
+          {formErrors.password && <span className="text-red-500 text-sm">{formErrors.password}</span>}</div>
           <Button
           onClick={handleSubmit}
           variant='primary'

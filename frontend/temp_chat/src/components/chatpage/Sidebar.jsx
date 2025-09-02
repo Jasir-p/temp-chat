@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { Avatar } from "./Avatar";
 import { Badge } from "./Badge";
 import formatTime from "../../utils/formatTime";
-export const Sidebar = ({ isOpen, onClose, roomData = "jasir", onlineCount = 1, members = null }) => {
+export const Sidebar = ({ isOpen, onClose, leaveRoom,roomData = "jasir", onlineCount = 1, members = null }) => {
   if (!isOpen) return null;
   
   return (
@@ -28,7 +28,7 @@ export const Sidebar = ({ isOpen, onClose, roomData = "jasir", onlineCount = 1, 
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-sm text-gray-600">Name:</span>
-                <span className="text-sm font-medium text-gray-900">{roomData.name}</span>
+                <span className="text-sm font-medium text-gray-900">{roomData?.name}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm text-gray-600">Online:</span>
@@ -59,15 +59,9 @@ export const Sidebar = ({ isOpen, onClose, roomData = "jasir", onlineCount = 1, 
           
           {/* Room Settings */}
           <Card className="p-4">
-            <h3 className="text-sm font-medium text-gray-900 mb-3">Settings</h3>
+            
             <div className="space-y-2">
-              <Button variant="ghost" size="sm" className="w-full justify-start">
-                Notifications
-              </Button>
-              <Button variant="ghost" size="sm" className="w-full justify-start">
-                Privacy
-              </Button>
-              <Button variant="danger" size="sm" className="w-full justify-start">
+              <Button variant="danger" size="sm" className="w-full justify-start" onClick={()=>leaveRoom()}>
                 Leave Room
               </Button>
             </div>
