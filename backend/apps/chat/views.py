@@ -30,7 +30,8 @@ class ChatRoomView(views.APIView):
         return response.Response({"error":serializer.errors},status=status.HTTP_400_BAD_REQUEST)
     
 
-    # def delete(self,request, *args, **kwargs):
+
+
 
 
 class SingleChatRoomView(views.APIView):
@@ -42,6 +43,24 @@ class SingleChatRoomView(views.APIView):
 
         return response.Response(serializer.data)
 
+
+
+class DeleteChatRoom(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self,request,room_id):
+        print("id",room_id)
+        if not room_id:
+            return response.Response({"error":"Room Id is Required"},status=status.HTTP_400_BAD_REQUEST)
+        chat_room = get_object_or_404(ChatRoom,id=room_id)
+        if chat_room.created_by != request.user:
+                return response.Response(
+                    {"error": "You do not have permission to delete this room"},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+
+        chat_room.delete()
+        return response.Response({"message successfull deleted"},status=status.HTTP_200_OK)
 
 class ChatMessageView(views.APIView):
 

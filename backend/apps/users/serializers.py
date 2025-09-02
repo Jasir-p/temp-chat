@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import CustomeUser
+import re
+from utils.constants import NAME_REGEX,EMAIL_REGEX,PASSWORD_REGEX
 
 
 class UserManagementSerializers(serializers.ModelSerializer):
@@ -11,13 +13,34 @@ class UserManagementSerializers(serializers.ModelSerializer):
             'password': {'write_only': True},
             }
         
-    def validate_username(self,value):
+        
+    def validate_username(self, value):
         value = value.strip()
-
-        if not value:
-            raise serializers.ValidationError("username is required")
-        if len(value)<3:
-            raise serializers.ValidationError("username must be at least 3 character long")
+        if not value :
+            raise serializers.ValidationError('Username is required')
+        if len(value) < 3 :
+            raise serializers.ValidationError('Username must be at least 3 characters long')
+        if not re.match(NAME_REGEX,value):
+            raise serializers.ValidationError('Username must contain only letters and numbers')
+        return value
+    
+    def validate_email(self, value):
+        value = value.strip()
+        if not value :
+            raise serializers.ValidationError('Email is required')
+        if not re.match(EMAIL_REGEX,value):
+            raise serializers.ValidationError('Invalid email')
+        return value
+        
+    def validate_password(self, value):
+        value = value.strip()
+        if not value :
+            raise serializers.ValidationError('Password is required')
+        if len(value) < 8 :
+            raise serializers.ValidationError('Password must be at least 8 characters long')
+        if not re.match(PASSWORD_REGEX,value):
+            raise serializers.ValidationError('Password must contain at least one uppercase letter, ' 
+            'one lowercase letter, one digit and one special character')
         
         return value
         
