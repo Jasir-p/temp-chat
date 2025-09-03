@@ -92,9 +92,9 @@ const handleChanges = (e)=>{
           <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             you have not account?{' '}
-            <a href="#" className="text-sky-600 hover:text-sky-700 font-medium">
-              Sign Up
-            </a>
+            <button type='button' className="text-sky-600 hover:text-sky-700 font-medium" onClick={()=>navigate("/register")}>
+              Sign up
+            </button>
           </p>
         </div>
           
