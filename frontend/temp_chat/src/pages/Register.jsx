@@ -7,6 +7,7 @@ import { validateEmail,validateName,validatePassword } from '../utils/Validation
 import { showSuccess } from '../utils/toast';
 
 
+
 const Register = () => {
   const navigate = useNavigate()
 
@@ -55,6 +56,8 @@ const Register = () => {
         );
         setFormErrors({})
         showSuccess("Registred Successfully")
+        navigate("/login")
+
   } catch (error) {
     if (error.response?.data?.error){
       const backendErros = {}

@@ -36,14 +36,7 @@ const LandingPage = () => {
           <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
             Connect with friends, family, and communities around the world. Experience the future of messaging with Let Chat - where conversations come alive.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="primary" size="lg" className="shadow-xl">
-              Get Started Free
-            </Button>
-            <Button variant="outline" size="lg">
-              Watch Demo
-            </Button>
-          </div>
+          
         </div>
       </section>
 
