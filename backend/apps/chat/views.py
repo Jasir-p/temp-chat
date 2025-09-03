@@ -69,8 +69,9 @@ class ChatMessageView(views.APIView):
     def get(self,request,room_id):
 
         chat_room = get_object_or_404(ChatRoom,id = room_id)
-        print(chat_room)
         messages = chat_room.chat.select_related('user').all()
+        for i in messages:
+            print(i.user)
 
         serializer = ChatMessageSerializer(messages, many=True)
 
