@@ -38,6 +38,7 @@ export const useChatSocket = (roomID,setMessage,setOnlineMembers)=>{
             }
 
         return () => {
+    socket.onclose = null
       socket.close();
     };
     },[roomID])
