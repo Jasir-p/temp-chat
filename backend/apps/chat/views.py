@@ -25,7 +25,7 @@ class ChatRoomView(views.APIView):
 
         if serializer.is_valid():
             serializer.save(created_by=request.user)
-            return response.Response(status=status.HTTP_201_CREATED)
+            return response.Response(serializer.data,status=status.HTTP_201_CREATED)
         
         return response.Response({"error":serializer.errors},status=status.HTTP_400_BAD_REQUEST)
     
@@ -41,7 +41,7 @@ class SingleChatRoomView(views.APIView):
         chat_room = get_object_or_404(ChatRoom,id = room_id)
         serializer = ChatRoomViewSerializers(chat_room)
 
-        return response.Response(serializer.data)
+        return response.Response(serializer.data,status=status.HTTP_200_OK)
 
 
 

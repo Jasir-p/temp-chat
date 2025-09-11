@@ -20,46 +20,49 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.user = self.scope.get("user")
             print(self.user)
             if not self.user or not self.user.is_authenticated:
-                await self.send(json.dumps({"error": "Unauthorized"}))
+                print("helo")
                 await self.close()
                 return
             
             self.room_id = self.scope['url_route']['kwargs']["room_name"]
             self.room_group_name = f'chat_{self.room_id}'
             self.redis_key = f"online_members:{self.room_id}"
-            print()
-            print(f'Connecting to room group:{self.room_group_name}')
+            print(f'Connecting to room group11:{self.room_group_name}')
+            await self.accept()
 
             await self.channel_layer.group_add(
                 self.room_group_name,
                 self.channel_name
             )
-            await self.accept()
 
             self.redis = Redis.from_url(REDIS_URL,decode_responses=True)
+            
             await self.add_online_member()
 
             await self.brodcast_list_members()
-
+            
         except Exception as e:
-            print(f" Error in connect: {e}")
+            print(f" Error in connect: {str(e)}")
             await self.close()
 
     async def disconnect(self, code=None, reason=None):
-        if hasattr(self, "room_group_name"):
+        if self.user:
             await self.remove_online_member()
-            await self.brodcast_list_members()
-            await self.channel_layer.group_discard(
+            
+        await self.channel_layer.group_discard(
                 self.room_group_name,
                 self.channel_name
             )
+        # await self.redis.close()
+        # await self.redis.connection_pool.disconnect()
             
 
     async def receive(self, text_data=None):
-
+        print("Receive called!")
         text_data_json = json.loads(text_data)
         message = text_data_json.get("message")
         message_obj = await self.save_message(message)
+        print(message)
 
         await self.channel_layer.group_send(
             self.room_group_name,
@@ -88,23 +91,37 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'members':members
         }))
     async def add_online_member(self):
-        await self.redis.hset(self.redis_key,self.user.id,self.user.username)
+        try:
+
+            await self.redis.hset(self.redis_key,self.user.id,self.user.username)
+        except Exception:
+            pass
 
     async def remove_online_member(self):
-        await self.redis.hdel(self.redis_key,self.user.id)
+        try:
+
+            await self.redis.hdel(self.redis_key,self.user.id)
+        except Exception:
+            pass
 
     async def brodcast_list_members(self):
 
-        members_obj =  await self.redis.hgetall(self.redis_key)
+        
 
-        members = [{"id":id,"username":name} for id,name in members_obj.items()]
+        
+        try:
 
-        await self.channel_layer.group_send(
-            self.room_group_name,{
-                "type":'members_list',
-                'members':members
-            }
-        )
+            members_obj =  await self.redis.hgetall(self.redis_key)
+            members = [{"id":id,"username":name} for id,name in members_obj.items()]
+
+            await self.channel_layer.group_send(
+                self.room_group_name,{
+                    "type":'members_list',
+                    'members':members
+                }
+            )
+        except Exception:
+            pass
 
 
 

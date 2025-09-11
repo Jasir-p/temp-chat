@@ -33,6 +33,8 @@ class RegisterView(views.APIView):
 
             return Response({"message":"Added"}, status=status.HTTP_201_CREATED)
         
+        print(serializer.errors)
+        
         return Response({"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
 
