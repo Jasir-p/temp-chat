@@ -1,4 +1,5 @@
 import { Avatar } from "./Avatar";
+import formatTime from "../../utils/formatTime";
 export const Message = ({ message, isOwn }) => {
   return (
     <div className={`flex ${isOwn ? 'justify-end' : 'justify-start'} mb-4`}>

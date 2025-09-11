@@ -101,7 +101,7 @@ const Register = () => {
             name="email"
             value={formData.email}
             onChange={handleChanges}
-            placeholder="Enter your username"
+            placeholder="Enter your email"
           />
           {formErrors.email&& <span className="text-red-500 text-sm">{formErrors.email}</span>}
         </div>
