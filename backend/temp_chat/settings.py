@@ -74,6 +74,8 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'TITLE': 'LetChats',
     'DESCRIPTION': 'API documentation for LetChats chat app',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'DEFAULT_GENERATE_UNSPECIFIED': False, 
     # No SIDECAR needed
 }
 
