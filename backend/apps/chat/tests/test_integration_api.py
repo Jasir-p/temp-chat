@@ -162,36 +162,6 @@ async def test_can_connect_to_server():
 
 
 
-# @pytest.mark.asyncio
-# @pytest.mark.django_db(transaction=True)
-# @override_settings(CHANNEL_LAYERS=TEST_CHANNEL_LAYERS)
-# async def test_can_send_and_receive_messages(setup_api):
-#     user = await sync_to_async(User.objects.create_user)(
-#         username="sample", email="Sample@example.com", password="Sample@1234"
-#     )
-#     room = await sync_to_async(ChatRoom.objects.create)(
-#         name="sampl1", description="good for value that my side", created_by=user
-#     )
-
-#     application = URLRouter([
-#         re_path(r'ws/chat/(?P<room_name>\w+)/$', ChatConsumer.as_asgi()),
-#     ])
-
-#     communicator = WebsocketCommunicator(application, f"/ws/chat/{room.id}/")
-#     communicator.scope['user'] = user
-
-#     try:
-#         connected, _ = await communicator.connect()
-#         assert connected
-
-        
-#         response = await asyncio.wait_for(communicator.receive_json_from(), timeout=5)
-
-#         assert response['type'] == 'chat'
-#         assert response['message']['message'] == 'hi halo guys'
-
-#     finally:
-#         await communicator.disconnect()
 
 
 @override_settings(CHANNEL_LAYERS=TEST_CHANNEL_LAYERS)
