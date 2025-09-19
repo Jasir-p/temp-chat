@@ -1,30 +1,27 @@
 # Full-Stack Video Chat Application
 
-A real-time video chat application built with Django (backend) and React (frontend), featuring WebRTC peer-to-peer communication, JWT authentication, and WebSocket integration.
+A real-time  chat application built with Django (backend) and React (frontend), featuring WebRTC peer-to-peer communication, JWT authentication, and WebSocket integration.
 
 ## 🚀 Features
 
-- **User Authentication**: Registration and login with JWT tokens
-- **Real-time Video Chat**: WebRTC-based peer-to-peer video communication
-- **Room Management**: Create and join video/chat rooms
-- **Live Updates**: WebSocket integration for real-time messaging
-- **Responsive UI**: Modern React interface with user-friendly design
+- **User Authentication**: Secure registration and login using JWT tokens stored in HttpOnly cookies.
+- **Room Management**: Create, join, and manage chat rooms with proper access control.
+- **Live Updates**: Real-time messaging powered by WebSocket integration.
+- **Modern React-based interface with a mobile-friendly design.
 
 ## 🛠️ Tech Stack
 
 ### Backend
-- Django 4.x
-- Django REST Framework
-- Django Channels (WebSockets)
+- Django, Django REST Framework, Django Channels
+- WebSocket support
 - JWT Authentication
-- SQLite/PostgreSQL
+- APIs for room management
 
 ### Frontend
-- React 18
-- Axios (API calls)
-- WebRTC API
+- React, Axios
+- Registration & login forms
+- Chat interface
 - WebSocket client
-- CSS3/Styled Components
 
 ## 📁 Project Structure
 
@@ -59,7 +56,7 @@ chat-app/
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone "https://github.com/Jasir-p/temp-chat/"
    cd chat-app/backend
    ```
 
@@ -111,35 +108,19 @@ The application will be available at:
 - Frontend: `http://localhost:3000`
 - Backend API: `http://localhost:8000`
 
-## 🔧 API Endpoints
-
-### Authentication
-- `POST /api/auth/register/` - User registration
-- `POST /api/auth/login/` - User login
-- `POST /api/auth/refresh/` - Refresh JWT token
-
-### Rooms
-- `GET /api/rooms/` - List all rooms
-- `POST /api/rooms/` - Create a new room
-- `GET /api/rooms/{id}/` - Get room details
-- `DELETE /api/rooms/{id}/` - Delete room
-
-### Messages
-- `GET /api/rooms/{id}/messages/` - Get room messages
-- WebSocket: `/ws/chat/{room_id}/` - Real-time messaging
-
 ## 🧪 Testing
 
 ### Backend Tests
 ```bash
 cd backend
-python manage.py test
+pytest .\apps\users\test
+pytest .\apps\chat\test
 ```
 
 ### Frontend Tests
 ```bash
 cd frontend
-npm test
+npm run test
 ```
 
 ## 📝 Environment Variables
@@ -150,14 +131,21 @@ Create `.env` files in both backend and frontend directories:
 ```
 SECRET_KEY=your-secret-key
 DEBUG=True
-DATABASE_URL=sqlite:///db.sqlite3
 REDIS_URL=redis://localhost:6379
+ALLOWED_HOSTS="*"
+CORS_ALLOWED_ORIGINS="http://localhost:8000"
+DB_ENGINE="your-db-engine-postgres-recommended"
+DB_NAME="your-db-name"
+DB_USER="your-db-user"
+DB_PASSWORD="your-db-password"
+DB_HOST="your-db-host-or-default-localhost"
+DB_PORT="your-db-port-or-default-5432"
 ```
 
 ### Frontend (.env)
 ```
-REACT_APP_API_URL=http://localhost:8000
-REACT_APP_WS_URL=ws://localhost:8000
+VITE_API_URL=http://localhost:8000
+VITE_WS_URL=ws://localhost:8000
 ```
 
 ## 🚀 Deployment
@@ -167,7 +155,7 @@ REACT_APP_WS_URL=ws://localhost:8000
 2. Configure PostgreSQL/MySQL database
 3. Set up Redis for WebSocket support
 4. Build React app: `npm run build`
-5. Configure web server (Nginx + Gunicorn)
+5. Configure web server (Nginx + Daphne)
 
 ## 📖 Usage
 
@@ -180,9 +168,9 @@ REACT_APP_WS_URL=ws://localhost:8000
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch 
+3. Commit your changes
+4. Push to the branch 
 5. Open a Pull Request
 
 ## 📄 License
@@ -193,7 +181,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 - Open an issue on GitHub
-- Contact: your-email@example.com
+- Contact:jazjasir7@gmailcom
 
 ## ✨ Acknowledgments
 
