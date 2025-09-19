@@ -134,14 +134,21 @@ Create `.env` files in both backend and frontend directories:
 ```
 SECRET_KEY=your-secret-key
 DEBUG=True
-DATABASE_URL=sqlite:///db.sqlite3
 REDIS_URL=redis://localhost:6379
+ALLOWED_HOSTS="*"
+CORS_ALLOWED_ORIGINS="http://localhost:8000"
+DB_ENGINE="your-db-engine-postgres-recommended"
+DB_NAME="your-db-name"
+DB_USER="your-db-user"
+DB_PASSWORD="your-db-password"
+DB_HOST="your-db-host-or-default-localhost"
+DB_PORT="your-db-port-or-default-5432"
 ```
 
 ### Frontend (.env)
 ```
-REACT_APP_API_URL=http://localhost:8000
-REACT_APP_WS_URL=ws://localhost:8000
+VITE_API_URL=http://localhost:8000
+VITE_WS_URL=ws://localhost:8000
 ```
 
 ## 🚀 Deployment
@@ -177,7 +184,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 - Open an issue on GitHub
-- Contact: your-jazjasir@example.com
+- Contact:jazjasir7@gmailcom
 
 ## ✨ Acknowledgments
 
