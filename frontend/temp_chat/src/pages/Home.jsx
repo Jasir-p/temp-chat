@@ -22,7 +22,11 @@ const Home = () => {
   const [search,setSearch]= useState(null)
   const[isOpen,setIsOpen]= useState(false)
   const [change,setChange]=useState(false)
+    const [currentPage, setCurrentPage] = useState(1)
+  const [hasNext, setHasNext] = useState(null)
+  const [hasPrev, setHasPrev] = useState(null)
   const debouncedSearch = useDebounce(search,300)
+
   const Username = useSelector((state)=>state.auth.username)
   const userId = useSelector((state)=>state.auth.userId)
 
@@ -49,24 +53,39 @@ const Home = () => {
     
   }
 
-useEffect(() => {
-    const loadRooms = async () => {
+  const loadRooms = async (url = "/api/chat-rooms/") => {
       const params = {};
       if (debouncedSearch) params.search = debouncedSearch;
       if (activeTab === "my") params.myrooms = true;
        try {
-            const data = await fetchChatRooms(params);
+            const data = await fetchChatRooms(url,params);
             console.log(data);
-            setRooms(data.data || [])
+            setRooms(data.results || [])
+            setHasNext(data.next)
+            setHasPrev(data.previous)
           } catch (error) {
             console.error("Error fetching chat rooms:", error);
             
           }
     };
+
+
+useEffect(() => {
+    
     loadRooms();
   }, [activeTab,debouncedSearch,change]); 
 
+    const handleNextPage = () => {
+    if (hasNext) {
+      loadRooms(hasNext)
+    }
+  }
 
+  const handlePrevPage = () => {
+    if (hasPrev) {
+      loadRooms(hasPrev)
+    }
+  }
 
   return (
     <MainLayout>
@@ -143,6 +162,31 @@ useEffect(() => {
                 />
               ))}
             </div>
+            <div className="flex justify-center items-center gap-4 mt-8">
+                <button
+                  onClick={handlePrevPage}
+                  disabled={!hasPrev}
+                  className={`px-4 py-2 rounded-lg font-medium transition ${
+                    hasPrev
+                      ? 'bg-sky-600 text-white hover:bg-sky-700'
+                      : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  Previous
+                </button>
+                
+                <button
+                  onClick={handleNextPage}
+                  disabled={!hasNext}
+                  className={`px-4 py-2 rounded-lg font-medium transition ${
+                    hasNext
+                      ? 'bg-sky-600 text-white hover:bg-sky-700'
+                      : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  Next
+                </button>
+              </div>
           </div>
         </div>
       </div>
