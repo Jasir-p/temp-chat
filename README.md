@@ -59,7 +59,7 @@ chat-app/
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone "https://github.com/Jasir-p/temp-chat/"
    cd chat-app/backend
    ```
 
@@ -111,35 +111,19 @@ The application will be available at:
 - Frontend: `http://localhost:3000`
 - Backend API: `http://localhost:8000`
 
-## 🔧 API Endpoints
-
-### Authentication
-- `POST /api/auth/register/` - User registration
-- `POST /api/auth/login/` - User login
-- `POST /api/auth/refresh/` - Refresh JWT token
-
-### Rooms
-- `GET /api/rooms/` - List all rooms
-- `POST /api/rooms/` - Create a new room
-- `GET /api/rooms/{id}/` - Get room details
-- `DELETE /api/rooms/{id}/` - Delete room
-
-### Messages
-- `GET /api/rooms/{id}/messages/` - Get room messages
-- WebSocket: `/ws/chat/{room_id}/` - Real-time messaging
-
 ## 🧪 Testing
 
 ### Backend Tests
 ```bash
 cd backend
-python manage.py test
+pytest .\apps\users\test
+pytest .\apps\chat\test
 ```
 
 ### Frontend Tests
 ```bash
 cd frontend
-npm test
+npm run test
 ```
 
 ## 📝 Environment Variables
@@ -167,7 +151,7 @@ REACT_APP_WS_URL=ws://localhost:8000
 2. Configure PostgreSQL/MySQL database
 3. Set up Redis for WebSocket support
 4. Build React app: `npm run build`
-5. Configure web server (Nginx + Gunicorn)
+5. Configure web server (Nginx + Daphne)
 
 ## 📖 Usage
 
@@ -180,9 +164,9 @@ REACT_APP_WS_URL=ws://localhost:8000
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch 
+3. Commit your changes
+4. Push to the branch 
 5. Open a Pull Request
 
 ## 📄 License
@@ -193,7 +177,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 - Open an issue on GitHub
-- Contact: your-email@example.com
+- Contact: your-jazjasir@example.com
 
 ## ✨ Acknowledgments
 
