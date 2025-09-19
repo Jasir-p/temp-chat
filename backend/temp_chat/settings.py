@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'apps.users',
-    'apps.chat'
+    'apps.chat',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +68,15 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'LetChats',
+    'DESCRIPTION': 'API documentation for LetChats chat app',
+    # No SIDECAR needed
+}
+
 
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", default="").split(",")
 

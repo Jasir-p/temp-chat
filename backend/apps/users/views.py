@@ -7,6 +7,7 @@ from .models import CustomeUser
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from django.conf import settings
+from .swagger_schema import created_schema,login_users_schemas,logout_users_schemas,profile_users_schemas,refresh_token_schemas
 # Create your views here.
 
 
@@ -21,7 +22,7 @@ class UserManagementView(viewsets.ModelViewSet):
         
         return [permissions.IsAuthenticated()]
     
-
+@created_schema
 class RegisterView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -37,7 +38,7 @@ class RegisterView(views.APIView):
         
         return Response({"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
-
+@login_users_schemas
 class UserLoginView(views.APIView):
     permission_classes = [permissions.AllowAny]
     def post (self,request):
@@ -58,7 +59,7 @@ class UserLoginView(views.APIView):
         return Response({"error":serializer.errors},status=status.HTTP_400_BAD_REQUEST)
     
 
-
+@profile_users_schemas
 class UserProfileView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -74,7 +75,7 @@ class UserProfileView(views.APIView):
         
 
 
-
+@logout_users_schemas
 class UserLogOut(views.APIView):
     def post(self,request):
         response = Response({"logout SuccessFull"},status=status.HTTP_200_OK)
@@ -84,7 +85,7 @@ class UserLogOut(views.APIView):
     
 
 
-        
+@refresh_token_schemas        
 class CookiesTokenRefresh(views.APIView):
     permission_classes = [permissions.AllowAny]
     def post(self, request,*args, **kwargs):

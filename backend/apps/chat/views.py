@@ -4,13 +4,13 @@ from .serializers import ChatRoomSerializers,ChatRoomViewSerializers,ChatMessage
 from .models import ChatRoom,ChatMessage
 from .services import get_chat_rooms
 from django.shortcuts import get_object_or_404
-
+from.swagger_schema import create_room_schema,get_rooms_schema,get_single_room_schema,delete_room_schema,get_messages_schema
 # Create your views here.
 
 
 class ChatRoomView(views.APIView):
     permission_classes =[permissions.IsAuthenticated]
-
+    @get_rooms_schema
     def get(self, request):
 
         chat_rooms = get_chat_rooms(request.query_params,request.user)
@@ -19,6 +19,7 @@ class ChatRoomView(views.APIView):
 
         return response.Response(serializer.data)
     
+    @create_room_schema
     def post(self,request,*args, **kwargs):
 
         serializer = ChatRoomSerializers(data=request.data)
@@ -37,6 +38,7 @@ class ChatRoomView(views.APIView):
 class SingleChatRoomView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    @get_single_room_schema
     def get(self,request,room_id):
         chat_room = get_object_or_404(ChatRoom,id = room_id)
         serializer = ChatRoomViewSerializers(chat_room)
@@ -47,7 +49,7 @@ class SingleChatRoomView(views.APIView):
 
 class DeleteChatRoom(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
-
+    @delete_room_schema
     def delete(self,request,room_id):
         print("id",room_id)
         if not room_id:
@@ -65,13 +67,12 @@ class DeleteChatRoom(views.APIView):
 class ChatMessageView(views.APIView):
 
     permission_classes = [permissions.IsAuthenticated]
-
+    
+    @get_messages_schema
     def get(self,request,room_id):
 
         chat_room = get_object_or_404(ChatRoom,id = room_id)
         messages = chat_room.chat.select_related('user').all()
-        for i in messages:
-            print(i.user)
 
         serializer = ChatMessageSerializer(messages, many=True)
 
