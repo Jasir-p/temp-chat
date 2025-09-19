@@ -1,30 +1,27 @@
 # Full-Stack Video Chat Application
 
-A real-time video chat application built with Django (backend) and React (frontend), featuring WebRTC peer-to-peer communication, JWT authentication, and WebSocket integration.
+A real-time  chat application built with Django (backend) and React (frontend), featuring WebRTC peer-to-peer communication, JWT authentication, and WebSocket integration.
 
 ## 🚀 Features
 
-- **User Authentication**: Registration and login with JWT tokens
-- **Real-time Video Chat**: WebRTC-based peer-to-peer video communication
-- **Room Management**: Create and join video/chat rooms
-- **Live Updates**: WebSocket integration for real-time messaging
-- **Responsive UI**: Modern React interface with user-friendly design
+- **User Authentication**: Secure registration and login using JWT tokens stored in HttpOnly cookies.
+- **Room Management**: Create, join, and manage chat rooms with proper access control.
+- **Live Updates**: Real-time messaging powered by WebSocket integration.
+- **Modern React-based interface with a mobile-friendly design.
 
 ## 🛠️ Tech Stack
 
 ### Backend
-- Django 4.x
-- Django REST Framework
-- Django Channels (WebSockets)
+- Django, Django REST Framework, Django Channels
+- WebSocket support
 - JWT Authentication
-- SQLite/PostgreSQL
+- APIs for room management
 
 ### Frontend
-- React 18
-- Axios (API calls)
-- WebRTC API
+- React, Axios
+- Registration & login forms
+- Chat interface
 - WebSocket client
-- CSS3/Styled Components
 
 ## 📁 Project Structure
 
