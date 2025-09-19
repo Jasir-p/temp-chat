@@ -5,6 +5,7 @@ from .models import ChatRoom,ChatMessage
 from .services import get_chat_rooms
 from django.shortcuts import get_object_or_404
 from.swagger_schema import create_room_schema,get_rooms_schema,get_single_room_schema,delete_room_schema,get_messages_schema
+from temp_chat.paginations import paginate_queryset_with_serializer
 # Create your views here.
 
 
@@ -16,8 +17,9 @@ class ChatRoomView(views.APIView):
         chat_rooms = get_chat_rooms(request.query_params,request.user)
         
         serializer = ChatRoomViewSerializers(chat_rooms,many=True)
+        
 
-        return response.Response(serializer.data)
+        return paginate_queryset_with_serializer(chat_rooms,request,ChatRoomViewSerializers,page_size=6)
     
     @create_room_schema
     def post(self,request,*args, **kwargs):
@@ -67,7 +69,7 @@ class DeleteChatRoom(views.APIView):
 class ChatMessageView(views.APIView):
 
     permission_classes = [permissions.IsAuthenticated]
-    
+
     @get_messages_schema
     def get(self,request,room_id):
 
