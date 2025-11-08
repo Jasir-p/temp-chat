@@ -93,7 +93,7 @@ SIMPLE_JWT = {
     'AUTH_COOKIE_REFRESH': 'refresh_token', 
     "AUTH_COOKIE_SECURE": True, 
     "AUTH_COOKIE_HTTP_ONLY": True, 
-    "AUTH_COOKIE_SAMESITE": "Strict", 
+    "AUTH_COOKIE_SAMESITE": "None", 
     "AUTH_COOKIE_PATH": "/", 
 }
 
