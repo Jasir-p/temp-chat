@@ -165,13 +165,11 @@ def clear_jwt_cookie(response,request):
     response.delete_cookie(
         key=settings.SIMPLE_JWT['AUTH_COOKIE'],
         path="/api/", 
-        secure=True,
         samesite=settings.SIMPLE_JWT.get('AUTH_COOKIE_SAMESITE') 
     )
     response.delete_cookie(
         settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'], 
         path="/api/auth/",
-        secure=True,
         samesite=settings.SIMPLE_JWT.get('AUTH_COOKIE_SAMESITE')
     )
 
