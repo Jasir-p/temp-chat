@@ -154,17 +154,24 @@ def clear_jwt_cookie(response,request):
     if request:
         refresh_token_value = request.COOKIES.get(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH']) 
         if refresh_token_value:
-            token = RefreshToken(refresh_token_value)
-            token.blacklist()
+            try:
+
+                token = RefreshToken(refresh_token_value)
+                token.blacklist()
+            
+            except Exception:
+                pass
 
     response.delete_cookie(
-        "access_token",
-        path="/", 
+        key=settings.SIMPLE_JWT['AUTH_COOKIE'],
+        path="/api/", 
+        secure=True,
         samesite=settings.SIMPLE_JWT.get('AUTH_COOKIE_SAMESITE') 
     )
     response.delete_cookie(
-        "refresh_token", 
-        path="/",
+        settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'], 
+        path="/api/auth/",
+        secure=True,
         samesite=settings.SIMPLE_JWT.get('AUTH_COOKIE_SAMESITE')
     )
 
