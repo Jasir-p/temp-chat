@@ -2,7 +2,7 @@ import axios from "axios";
 export  const LoginApi = async(formData)=>{
     try{
         const response = await axios.post(
-                `${import.meta.env.VITE_API_URL}/api/user/login/`,
+                `${import.meta.env.VITE_API_URL}/api/auth/login/`,
                 formData,
                 { withCredentials: true }
                 );
