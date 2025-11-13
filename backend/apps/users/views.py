@@ -143,7 +143,7 @@ def set_jwt_cookie(response,user):
         secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
         httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
         samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
-        path='/api/user/token/refresh/',
+        path='/api/auth/',
        max_age=int(settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds())
     )
 
