@@ -1,5 +1,11 @@
-from django.urls import path,include
-from .views import RegisterView,UserManagementView,UserLoginView,UserProfileView,UserLogOut,CookiesTokenRefresh
+from django.urls import path, include
+from .views import (
+    RegisterView,
+    UserManagementView,
+    UserLoginView,
+    UserProfileView,
+    UserLogOut,
+    CookiesTokenRefresh)
 from rest_framework.routers import DefaultRouter
 
 

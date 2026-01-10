@@ -12,7 +12,7 @@ from .swagger_schema import created_schema,login_users_schemas,logout_users_sche
 
 
 class UserManagementView(viewsets.ModelViewSet):
-    serializer_class =UserManagementSerializers
+    serializer_class = UserManagementSerializers
     # permission_classes = [permissions.AllowAny]
     queryset = CustomeUser.objects.all()
     

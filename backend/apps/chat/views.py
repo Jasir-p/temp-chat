@@ -41,7 +41,7 @@ class SingleChatRoomView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     @get_single_room_schema
-    def get(self,request,room_id):
+    def get(self, request, room_id):
         chat_room = get_object_or_404(ChatRoom,id = room_id)
         serializer = ChatRoomViewSerializers(chat_room)
 
