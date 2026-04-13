@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect,useState,useRef } from 'react'
 import { useChatSocket } from '../hooks/useWebsocket'
 import { ChatHeader } from '../components/chatpage/ChatHeader'
 import MainLayout from '../layouts/MainLayout'
@@ -23,6 +23,8 @@ const [sidebarOpen, setSidebarOpen] = useState(false);
 const userId = useSelector((state)=>state.auth.userId)
 const [roomData,setRoomData] = useState(null)
 const navigate = useNavigate()
+const bottomref = useRef()
+
 
 useEffect (()=>{
     if (!socket) return
@@ -62,7 +64,10 @@ useEffect (()=>{
     getChatRoom()
   }
 },[roomId])
-console.log(onlineMembers);
+
+useEffect (()=>{
+  bottomref.current.scrollIntoView({behavior:'smooth'})
+})
 function leaveRoom() {
   if (socket && socket.readyState === WebSocket.OPEN) {
     socket.close();
@@ -86,6 +91,7 @@ function leaveRoom() {
                 isOwn={message.user.id ===userId} 
               />
             ))}
+            <div ref={bottomref} />
           </div>
           
           <ChatInput onSend ={(msg)=>sendMessage(msg)} />
