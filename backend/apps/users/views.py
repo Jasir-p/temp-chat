@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets,views
 from rest_framework.response import Response
 from rest_framework import permissions,status
-from .serializers import UserManagementSerializers,UserLoginSerailizers
+from .serializers import UserManagementSerializers,UserLoginSerailizers,UserProfileSerializer
 from .models import CustomeUser
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
@@ -66,7 +66,7 @@ class UserProfileView(views.APIView):
     def get(self,request):
         try:
             # user_profile = CustomeUser.objects.get(id=request.user.id)
-            serializer = UserManagementSerializers(request.user)
+            serializer = UserProfileSerializer(request.user)
             return Response (serializer.data,status=status.HTTP_200_OK)
         
         except Exception as e:
@@ -143,7 +143,7 @@ def set_jwt_cookie(response,user):
         secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
         httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
         samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
-        path='/',
+        path='/api/auth/',
        max_age=int(settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds())
     )
 

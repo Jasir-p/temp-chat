@@ -41,5 +41,9 @@ class UserLoginSerailizers(serializers.Serializer):
         return attrs
 
         
+class UserProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        fields = ['id','username','email']
 
 
